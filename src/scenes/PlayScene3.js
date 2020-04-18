@@ -1,4 +1,4 @@
-// PlayScene2 je analogicka k PlayScene, zmenene jsou pouze hodnoty a mapa, protoze funguje obdobne jsou komentáře pouze v PlayScene
+// PlayScene3 je analogicka k PlayScene, zmenene jsou pouze hodnoty a mapa, protoze funguje obdobne jsou komentáře pouze v PlayScene
 
 var keys;
 var PacMan;
@@ -44,22 +44,22 @@ var PacManRespawnY = 592;
 var RedGhostRespawnX = 640;
 var RedGhostRespawnY = 400;
 var RedGhostDeadX = 640;
-var RedGhostDeadY = 336;
+var RedGhostDeadY = 304;
 
 var GreenGhostRespawnX = 1232;
 var GreenGhostRespawnY = 400;
 var GreenGhostDeadX = 658;
-var GreenGhostDeadY = 272;
+var GreenGhostDeadY = 240;
 
 var PurpleGhostRespawnX = 48;
-var PurpleGhostRespawnY = 400;
+var PurpleGhostRespawnY = 592;
 var PurpleGhostDeadX = 623;
-var PurpleGhostDeadY = 272;
+var PurpleGhostDeadY = 240;
 
 var GreyGhostRespawnX = 640;
-var GreyGhostRespawnY = 400;
+var GreyGhostRespawnY = 864;
 var GreyGhostDeadX = 640;
-var GreyGhostDeadY = 304;
+var GreyGhostDeadY = 272;
 
 var GreenTargetValue = 1;
 var GreenTargetCoordinateX;
@@ -146,7 +146,7 @@ function damageR() {
     if (bonusF === false) {
 
         this.scene.pause();
-        this.scene.launch("PauseScene2");
+        this.scene.launch("PauseScene3");
         keys.W.isDown = false;
         keys.A.isDown = false;
         keys.S.isDown = false;
@@ -204,7 +204,7 @@ function damageG() {
     if (bonusF === false) {
 
         this.scene.pause();
-        this.scene.launch("PauseScene2");
+        this.scene.launch("PauseScene3");
         keys.W.isDown = false;
         keys.A.isDown = false;
         keys.S.isDown = false;
@@ -263,7 +263,7 @@ function damageP() {
     if (bonusF === false) {
 
         this.scene.pause();
-        this.scene.launch("PauseScene2");
+        this.scene.launch("PauseScene3");
         keys.W.isDown = false;
         keys.A.isDown = false;
         keys.S.isDown = false;
@@ -324,7 +324,7 @@ function damageGrey() {
     if (bonusF === false) {
 
         this.scene.pause();
-        this.scene.launch("PauseScene2");
+        this.scene.launch("PauseScene3");
         keys.W.isDown = false;
         keys.A.isDown = false;
         keys.S.isDown = false;
@@ -379,10 +379,10 @@ function damageGrey() {
 
 
 // trida scena, rozsiruje PhaserScene a musi se exportovat
-export class PlayScene2 extends Phaser.Scene {
+export class PlayScene3 extends Phaser.Scene {
     constructor() {
         super({
-            key: "PlayScene2",   // vstupni data
+            key: "PlayScene3",   // vstupni data
         })
     }
     init(data) {
@@ -390,7 +390,7 @@ export class PlayScene2 extends Phaser.Scene {
     }
 
     preload() {
-        this.load.tilemapTiledJSON("map2", "./assets/Tilemaps/map2.json")
+        this.load.tilemapTiledJSON("map3", "./assets/Tilemaps/map3.json")
         this.load.image("terrain", "./assets/Tilesets/BlokyF.png")
     }
 
@@ -426,7 +426,7 @@ export class PlayScene2 extends Phaser.Scene {
         text2.setScrollFactor(0);
 
 
-        map = this.add.tilemap("map2");
+        map = this.add.tilemap("map3");
         terrain = map.addTilesetImage("Bloky", "terrain")
         topLayer = map.createStaticLayer("top", [terrain], 0, 0).setDepth(-1)
 
@@ -438,7 +438,6 @@ export class PlayScene2 extends Phaser.Scene {
             obj.body.width = object.width;
             obj.body.height = object.height;
         });
-
         BonusLayer = map.getObjectLayer('bonus')['objects'];
         bonus = this.physics.add.staticGroup()
         BonusLayer.forEach(object => {
@@ -520,7 +519,7 @@ export class PlayScene2 extends Phaser.Scene {
 
 
     update() { // funkce, ktera updatuje scenu
-        if (coinScore === 139) {
+        if (coinScore === 108) {
 
                 PacMan.setVelocityX(0);
                 PacMan.setVelocityY(0);
@@ -534,8 +533,8 @@ export class PlayScene2 extends Phaser.Scene {
                 PurpleGhost.setVelocityY(0);
 
 
-            var text3 = this.add.text(230, 100, `You won this level!`, {
-                fontSize: '80px',
+            var text3 = this.add.text(50, 100, `You completed all 3 levels!`, {
+                fontSize: '70px',
                 fill: '#ff0000'
 
             });
@@ -580,11 +579,11 @@ export class PlayScene2 extends Phaser.Scene {
                 coinScore = 0;
 
                 this.scene.stop();
-                this.scene.launch("PlayScene3", {totalScore: totalScore });
+                this.scene.launch("MenuScene");
 
             }
         }
-        if (coinScore !== 139) {
+        if (coinScore !== 108) {
 
             if (lives === 2) {
 
@@ -669,6 +668,7 @@ export class PlayScene2 extends Phaser.Scene {
                 spawn = 1;
             }
 
+
             finder.findPath(Math.floor(RedGhost.x / 32), Math.floor(RedGhost.y / 32), Math.floor(PacMan.x / 32), Math.floor(PacMan.y / 32), function (path) {
                 if (path === null || path[1] === undefined) {
 
@@ -739,13 +739,13 @@ export class PlayScene2 extends Phaser.Scene {
 
                 switch (GreenTargetValue) {
                     case 1:
-                        GreenTargetCoordinateX = 1216 / 32; GreenTargetCoordinateY = 96 / 32; if (GreenTargetCoordinateX * 32 === GreenGhost.x - 16 && GreenTargetCoordinateY * 32 === GreenGhost.y - 16) GreenTargetValue = 2;
+                        GreenTargetCoordinateX = 1216 / 32; GreenTargetCoordinateY = 32 / 32; if (GreenTargetCoordinateX * 32 === GreenGhost.x - 16 && GreenTargetCoordinateY * 32 === GreenGhost.y - 16) GreenTargetValue = 2;
                         break;
 
-                    case 2: GreenTargetCoordinateX = 864 / 32; GreenTargetCoordinateY = 96 / 32; if (GreenTargetCoordinateX * 32 === GreenGhost.x - 16 && GreenTargetCoordinateY * 32 === GreenGhost.y - 16) GreenTargetValue = 3;
+                    case 2: GreenTargetCoordinateX = 704 / 32; GreenTargetCoordinateY = 32 / 32; if (GreenTargetCoordinateX * 32 === GreenGhost.x - 16 && GreenTargetCoordinateY * 32 === GreenGhost.y - 16) GreenTargetValue = 3;
                         break;
 
-                    case 3: GreenTargetCoordinateX = 736 / 32; GreenTargetCoordinateY = 832 / 32; if (GreenTargetCoordinateX * 32 === GreenGhost.x - 16 && GreenTargetCoordinateY * 32 === GreenGhost.y - 16) GreenTargetValue = 4;
+                    case 3: GreenTargetCoordinateX = 960 / 32; GreenTargetCoordinateY = 832 / 32; if (GreenTargetCoordinateX * 32 === GreenGhost.x - 16 && GreenTargetCoordinateY * 32 === GreenGhost.y - 16) GreenTargetValue = 4;
                         break;
 
                     case 4: GreenTargetCoordinateX = 1216 / 32; GreenTargetCoordinateY = 832 / 32; if (GreenTargetCoordinateX * 32 === GreenGhost.x - 16 && GreenTargetCoordinateY * 32 === GreenGhost.y - 16) GreenTargetValue = 1;
@@ -832,13 +832,13 @@ export class PlayScene2 extends Phaser.Scene {
                         PurpleTargetCoordinateX = 64 / 32; PurpleTargetCoordinateY = 832 / 32; if (PurpleTargetCoordinateX * 32 === PurpleGhost.x - 16 && PurpleTargetCoordinateY * 32 === PurpleGhost.y - 16) PurpleTargetValue = 2;
                         break;
 
-                    case 2: PurpleTargetCoordinateX = 512 / 32; PurpleTargetCoordinateY = 832 / 32; if (PurpleTargetCoordinateX * 32 === PurpleGhost.x - 16 && PurpleTargetCoordinateY * 32 === PurpleGhost.y - 16) PurpleTargetValue = 3;
+                    case 2: PurpleTargetCoordinateX = 352 / 32; PurpleTargetCoordinateY = 832 / 32; if (PurpleTargetCoordinateX * 32 === PurpleGhost.x - 16 && PurpleTargetCoordinateY * 32 === PurpleGhost.y - 16) PurpleTargetValue = 3;
                         break;
 
-                    case 3: PurpleTargetCoordinateX = 384 / 32; PurpleTargetCoordinateY = 96 / 32; if (PurpleTargetCoordinateX * 32 === PurpleGhost.x - 16 && PurpleTargetCoordinateY * 32 === PurpleGhost.y - 16) PurpleTargetValue = 4;
+                    case 3: PurpleTargetCoordinateX = 480 / 32; PurpleTargetCoordinateY = 32 / 32; if (PurpleTargetCoordinateX * 32 === PurpleGhost.x - 16 && PurpleTargetCoordinateY * 32 === PurpleGhost.y - 16) PurpleTargetValue = 4;
                         break;
 
-                    case 4: PurpleTargetCoordinateX = 64 / 32; PurpleTargetCoordinateY = 96 / 32; if (PurpleTargetCoordinateX * 32 === PurpleGhost.x - 16 && PurpleTargetCoordinateY * 32 === PurpleGhost.y - 16) PurpleTargetValue = 1;
+                    case 4: PurpleTargetCoordinateX = 64 / 32; PurpleTargetCoordinateY = 32 / 32; if (PurpleTargetCoordinateX * 32 === PurpleGhost.x - 16 && PurpleTargetCoordinateY * 32 === PurpleGhost.y - 16) PurpleTargetValue = 1;
                         break;
 
                     default: break;
@@ -922,16 +922,16 @@ export class PlayScene2 extends Phaser.Scene {
 
                 switch (GreyTargetValue) {
                     case 1:
-                        GreyTargetCoordinateX = 384 / 32; GreyTargetCoordinateY = 416 / 32; if (GreyTargetCoordinateX * 32 === GreyGhost.x - 16 && GreyTargetCoordinateY * 32 === GreyGhost.y - 16) GreyTargetValue = 2;
+                        GreyTargetCoordinateX = 928 / 32; GreyTargetCoordinateY = 576 / 32; if (GreyTargetCoordinateX * 32 === GreyGhost.x - 16 && GreyTargetCoordinateY * 32 === GreyGhost.y - 16) GreyTargetValue = 2;
                         break;
 
-                    case 2: GreyTargetCoordinateX = 672 / 32; GreyTargetCoordinateY = 192 / 32; if (GreyTargetCoordinateX * 32 === GreyGhost.x - 16 && GreyTargetCoordinateY * 32 === GreyGhost.y - 16) GreyTargetValue = 3;
+                    case 2: GreyTargetCoordinateX = 640 / 32; GreyTargetCoordinateY = 96 / 32; if (GreyTargetCoordinateX * 32 === GreyGhost.x - 16 && GreyTargetCoordinateY * 32 === GreyGhost.y - 16) GreyTargetValue = 3;
                         break;
 
-                    case 3: GreyTargetCoordinateX = 928 / 32; GreyTargetCoordinateY = 416 / 32; if (GreyTargetCoordinateX * 32 === GreyGhost.x - 16 && GreyTargetCoordinateY * 32 === GreyGhost.y - 16) GreyTargetValue = 4;
+                    case 3: GreyTargetCoordinateX = 352 / 32; GreyTargetCoordinateY = 576 / 32; if (GreyTargetCoordinateX * 32 === GreyGhost.x - 16 && GreyTargetCoordinateY * 32 === GreyGhost.y - 16) GreyTargetValue = 4;
                         break;
 
-                    case 4: GreyTargetCoordinateX = 672 / 32; GreyTargetCoordinateY = 832 / 32; if (GreyTargetCoordinateX * 32 === GreyGhost.x - 16 && GreyTargetCoordinateY * 32 === GreyGhost.y - 16) GreyTargetValue = 1;
+                    case 4: GreyTargetCoordinateX = 640 / 32; GreyTargetCoordinateY = 832 / 32; if (GreyTargetCoordinateX * 32 === GreyGhost.x - 16 && GreyTargetCoordinateY * 32 === GreyGhost.y - 16) GreyTargetValue = 1;
                         break;
 
                     default: break;
@@ -980,6 +980,13 @@ export class PlayScene2 extends Phaser.Scene {
             if (PacMan.x < 10) {
                 PacMan.x = 1270
             }
+            if (PacMan.y > 886) {
+                PacMan.y = 10
+            }
+            if (PacMan.y < 10) {
+                PacMan.y = 886
+            }
+            
 
             if (Math.floor((PacMan.x)) % 32 == 16) {
 
@@ -1075,7 +1082,7 @@ export class PlayScene2 extends Phaser.Scene {
 
             if (Phaser.Input.Keyboard.JustDown(esc)) {
                 this.scene.pause();
-                this.scene.launch("PauseScene2");
+                this.scene.launch("PauseScene3");
                 keys.W.isDown = false;
                 keys.A.isDown = false;
                 keys.S.isDown = false;

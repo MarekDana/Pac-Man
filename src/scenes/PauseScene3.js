@@ -1,24 +1,23 @@
-// inicializace promennych
+// PauseScene3 je analogicka k PauseScene, zmenene jsou pouze nazvy, protoze funguji stejne jsou komentare pouze v PauseScene
 var resumebutton;
 var resume = false;
 var menubutton;
 
-
-export class PauseScene extends Phaser.Scene {
+export class PauseScene3 extends Phaser.Scene {
     constructor() {
         super({
-            key: "PauseScene",
+            key: "PauseScene3",
         })
     }
+
     init(data) {
     }
 
     preload() {
-
     }
 
     create() {
-        // vytvoreni tlacitek
+
         resumebutton = this.add.image(643, 535, 'resume');
         menubutton = this.add.image(645, 505, 'menu');
         resumebutton.setInteractive();
@@ -28,20 +27,18 @@ export class PauseScene extends Phaser.Scene {
             resume = true;
 
         });
-        // pri stisknuti tlacitka menu navrat do menu
         menubutton.on('pointerup', function (pointer) {
             this.scene.start("MenuScene");
-            this.scene.stop("PlayScene");
+            this.scene.stop("PlayScene3");
             this.scene.stop();
 
         }, this);
     }
 
     update() {
-        // obnoveni sceny hry
         if (resume) {
             resume = false;
-            this.scene.resume("PlayScene");
+            this.scene.resume("PlayScene3");
             this.scene.stop();
         }
     }

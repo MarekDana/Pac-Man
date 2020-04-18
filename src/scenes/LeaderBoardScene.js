@@ -6,7 +6,7 @@ var nameText = [];
 var scoreField = [];
 var x;
 var title;
-
+var background;
 
 export class LeaderBoardScene extends Phaser.Scene {
     constructor() {
@@ -17,11 +17,11 @@ export class LeaderBoardScene extends Phaser.Scene {
 
     preload() {
         this.load.image("back", "./assets/Back2.png");
-
     }
 
     create() {
-  
+        // vytvoreni tlacitek z obrazku
+        background = this.add.image(640,448,"background")
         title = this.add.image(640, 100, 'title');
         backsbutton = this.add.image(160, 850, 'back');
         backsbutton.setInteractive();
@@ -32,7 +32,7 @@ export class LeaderBoardScene extends Phaser.Scene {
 
         });
 
-        // nacteni skore a pridani nove serazeneho skore do pameti browseru
+        // nacteni skore a pridani nove serazeneho skore do pameti prohlizece
         
         scoreField = JSON.parse(localStorage.getItem("score"));
       
@@ -58,14 +58,13 @@ export class LeaderBoardScene extends Phaser.Scene {
         }
         else {
             for (var i = 0; i < 10; i++) {
-
                 scoreText[i].setText(i + 1 + ": ");
             }
         }
 
     }
     update() {
-  
+        // pri stisknuti back se znovu spusti scena s menu
         if (back) {
             this.scene.start("MenuScene");
             back = false;

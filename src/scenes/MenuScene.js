@@ -3,10 +3,10 @@ var background;
 var playbutton;
 var title;
 var Menu = -1;
-var buttonClick;
 var leaderboardbutton;
 var playerName;
-
+var rules;
+var continuebutton;
 
 // trida scena, rozsiruje PhaserScene a musi se exportovat
 export class MenuScene extends Phaser.Scene {
@@ -32,10 +32,7 @@ export class MenuScene extends Phaser.Scene {
         this.load.image("play", "./assets/Play.png");
         this.load.image("leaderboard", "./assets/Leaderboard.png");
 
-        this.load.image("nextLevel", "./assets/nextlevel.png");
-
-
-        this.load.image("PacMan", "./assets/PacMan.png")
+        this.load.image("PacMan", "./assets/Pacman.png")
         this.load.image("PacMan2", "./assets/PacMan2.png")
         this.load.image("RedGhost", "./assets/RedGhost.png")
         this.load.image("GreenGhost", "./assets/GreenGhost.png")
@@ -46,16 +43,22 @@ export class MenuScene extends Phaser.Scene {
         this.load.image("coin", "assets/Point.png");
         this.load.image("bonus", "assets/BonusPoint.png");
 
+        this.load.image("rules", "./assets/Rules.png");
+        this.load.image("background", "./assets/RedBackground.png");
+        this.load.image("continue", "./assets/Continue.png");
 
 
 
 
-       
+
     }
 
     create() {
 
         // souradnice x, y  a nazev obrazku, co se do toho da
+        Menu = 0;
+        
+        background = this.add.image(640, 448, "background")
         title = this.add.image(640, 100, 'title');
         playbutton = this.add.image(640, 250, 'play');
         leaderboardbutton = this.add.image(640, 320, 'leaderboard');
@@ -87,21 +90,36 @@ export class MenuScene extends Phaser.Scene {
 
         leaderboardbutton.on('pointerup', function (pointer) {
             Menu = 2;
-        
+
         });
 
     }
 
-    update() { 
+    update() {
 
         if (Menu === 1) {
-            this.scene.start("PlayScene" )
+            
+            background.destroy();
+            title.destroy();
+            playbutton.destroy();
+            leaderboardbutton.destroy();
+
+            rules = this.add.image(640, 448, "rules");
+            continuebutton = this.add.image(1100, 828, 'continue');
+            continuebutton.setInteractive();
+            Menu = 0;
+            continuebutton.on('pointerdown', function (pointer) {   
+                Menu = 3;
+            });
+        }
+        
+        if (Menu === 3) {
+            this.scene.stop();
+            this.scene.start("PlayScene")
             Menu = 0;
         }
-
-
         if (Menu === 2) {
-            this.scene.start("LeaderBoardScene") 
+            this.scene.start("LeaderBoardScene")
             Menu = 0;
         }
 
